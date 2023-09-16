@@ -11,4 +11,7 @@ class Transaction extends Model
 
     protected $guarded = false;
 
+    const HOURLY_PAYMENT = 200;
+    const STATUS_OPEN = 0;
+    const STATUS_CONDUCTED = 1;
 }

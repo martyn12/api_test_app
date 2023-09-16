@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained('employees');
             $table->unsignedInteger('hours');
-            $table->unsignedInteger('payments_sum');
+            $table->unsignedInteger('payment');
             $table->unsignedSmallInteger('status')->default(0);
             $table->timestamps();
         });

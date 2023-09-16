@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
-    public function registerTransaction(CreateTransactionRequest $request)
+    public function createTransaction(CreateTransactionRequest $request)
     {
         $data = $request->validated();
         $data['payment'] = $data['hours'] * Transaction::HOURLY_PAYMENT;
         $transaction = Transaction::create($data);
-        return response()->json($transaction);
+
+        return response()->json($transaction, 201);
     }
 
     public function getPaymentSum()
@@ -29,6 +30,7 @@ class TransactionController extends Controller
         foreach ($sum as $item) {
             $response[$item->employee_id] = $item->payments;
         }
+
         return response()->json($response);
     }
 
@@ -36,13 +38,15 @@ class TransactionController extends Controller
     {
         try {
             $transactions = Transaction::where('status', 0)->get();
-            foreach ($transactions as $transaction) {
-                $transaction->status = Transaction::STATUS_CONDUCTED;
-                $transaction->update();
-            }
-            return response(['transaction status has been updated'], 200);
+            if (!empty($transactions)) {
+                foreach ($transactions as $transaction) {
+                    $transaction->status = Transaction::STATUS_CONDUCTED;
+                    $transaction->update();
+                }
+                return response(['transaction status has been updated'], 201);
+            } else return response(['no transactions to conduct'], 200);
         } catch (\Exception $exception) {
-            return response(['server error'], 500);
+            return response(['server error:' . $exception->getMessage()], 500);
         }
     }
 }

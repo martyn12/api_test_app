@@ -14,4 +14,9 @@ class Transaction extends Model
     const HOURLY_PAYMENT = 200;
     const STATUS_OPEN = 0;
     const STATUS_CONDUCTED = 1;
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

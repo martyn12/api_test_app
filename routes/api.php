@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/employee/create', [\App\Http\Controllers\EmployeeController::class, 'createEmployee']);
-Route::post('/transaction/create', [\App\Http\Controllers\TransactionController::class, 'registerTransaction']);
+Route::post('/transaction/create', [\App\Http\Controllers\TransactionController::class, 'createTransaction']);
 Route::get('/transaction/index', [\App\Http\Controllers\TransactionController::class, 'getPaymentSum']);
 Route::post('/transaction/conduct', [\App\Http\Controllers\TransactionController::class, 'conductTransactions']);

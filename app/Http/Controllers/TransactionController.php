@@ -20,30 +20,34 @@ class TransactionController extends Controller
 
     public function getPaymentSum()
     {
-        $sum = DB::table('transactions')
-            ->selectRaw('employee_id, sum(payment) as payments')
-            ->where('status', '=', Transaction::STATUS_OPEN)
-            ->groupBy('employee_id')
-            ->get();
+        try {
+            $sum = DB::table('transactions')
+                ->selectRaw('employee_id, sum(payment) as payments')
+                ->where('status', '=', Transaction::STATUS_OPEN)
+                ->groupBy('employee_id')
+                ->get();
 
-        $response = [];
-        foreach ($sum as $item) {
-            $response[$item->employee_id] = $item->payments;
+            $response = [];
+            foreach ($sum as $item) {
+                $response[$item->employee_id] = $item->payments;
+            }
+
+            return response()->json($response);
+        } catch (\Exception $exception) {
+            return response(['server error:' . $exception->getMessage()], 500);
         }
-
-        return response()->json($response);
     }
 
     public function conductTransactions()
     {
         try {
             $transactions = Transaction::where('status', 0)->get();
-            if (!empty($transactions)) {
+            if ($transactions->toArray()) {
                 foreach ($transactions as $transaction) {
                     $transaction->status = Transaction::STATUS_CONDUCTED;
                     $transaction->update();
                 }
-                return response(['transaction status has been updated'], 201);
+                return response(['transactions status has been updated'], 201);
             } else return response(['no transactions to conduct'], 200);
         } catch (\Exception $exception) {
             return response(['server error:' . $exception->getMessage()], 500);

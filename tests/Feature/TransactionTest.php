@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Employee;
 use App\Models\Transaction;
 use Database\Seeders\EmployeeSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;

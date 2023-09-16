@@ -17,7 +17,7 @@ class TransactionFactory extends Factory
      */
     public function definition(): array
     {
-        $hours = rand(5, 60);
+        $hours = rand(1, 12);
         $hourlyPayment = 200;
         return [
             'employee_id' => function () {

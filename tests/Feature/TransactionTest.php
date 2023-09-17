@@ -42,7 +42,7 @@ class TransactionTest extends TestCase
     {
         $this->seed();
         $transaction = Transaction::inRandomOrder()->first();
-        $res = $this->post('/api/transaction/conduct');
+        $res = $this->patch('/api/transaction/conduct');
 
         $res->assertStatus(201);
         $updatedTransaction = Transaction::where('id', $transaction->id)->firstOrFail();

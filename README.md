@@ -21,19 +21,19 @@ UseCases:
 - скопировать .env.example в .env
 - в .env установить соединение с БД, в .env.testing установить соединение с тестовой БД
 ```
-    composer install
+composer install
 ```
 ```
-    php artisan test
+php artisan test
 ```
 ```
-    php artisan serve
+php artisan serve
 ```
 ### Использование
 
-| Метод запроса  | Эндпоинт                 | Описание                                               |
-| -------------- |:------------------------:|--------------------------------------------------------|
-| POST           | /api/employee/create     | создание сотрудника                                    |
-| POST           | /api/transaction/create  | создание транзакции                                    |
-| GET            | /api/transaction/index   | вывод суммы непроведенных транзакций                   |
-| POST           | /api//transaction/conduct| проведение транзакции(выплата всей суммы)              |
+| Метод запроса |         Эндпоинт         | Описание                                               |
+|---------------|:------------------------:|--------------------------------------------------------|
+| POST          | /api/employee/create   | создание сотрудника                                    |
+| POST          | /api/transaction/create  | создание транзакции                                    |
+| GET           | /api/transaction/index  | вывод суммы непроведенных транзакций                   |
+| PATCH         | /api/transaction/conduct | проведение транзакции(выплата всей суммы)              |

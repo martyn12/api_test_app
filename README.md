@@ -24,6 +24,9 @@ UseCases:
 composer install
 ```
 ```
+php artisan migrate
+```
+```
 php artisan test
 ```
 ```

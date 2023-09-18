@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Employee;
 use App\Models\Transaction;
-use Database\Seeders\EmployeeSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,15 +14,16 @@ class TransactionTest extends TestCase
     /** @test */
     public function transaction_can_be_created()
     {
-        $this->seed(EmployeeSeeder::class);
+        $employee = Employee::factory()->create();
 
-        $transaction = Transaction::factory()->create();
-        $data['employee_id'] = $transaction->employee_id;
-        $data['hours'] = $transaction->hours;
+        $data = [
+            'employee_id' => $employee->id,
+            'hours' => rand(1, 12)
+        ];
         $res = $this->post('/api/transaction/create', $data);
 
         $res->assertStatus(201);
-        $this->assertTrue(Transaction::count() > 0);
+        $this->assertTrue(Transaction::count() == 1);
     }
 
     /** @test */
@@ -49,6 +50,30 @@ class TransactionTest extends TestCase
         $this->assertTrue($transaction->employee_id == $updatedTransaction->employee_id);
         $this->assertTrue($transaction->hours == $updatedTransaction->hours);
         $this->assertFalse($transaction->status == $updatedTransaction->status);
+    }
+
+    /** @test */
+    public function transaction_creating_should_fail_when_no_employee_id_provided()
+    {
+        $data = [
+            'hours' => rand(1, 12)
+        ];
+        $res = $this->postJson('/api/transaction/create', $data);
+
+        $res->assertStatus(422);
+    }
+
+    /** @test */
+    public function transaction_creating_should_fail_when_no_hours_provided()
+    {
+        $employee = Employee::factory()->create();
+
+        $data = [
+            'employee_id' => $employee->id,
+        ];
+        $res = $this->postJson('/api/transaction/create', $data);
+
+        $res->assertStatus(422);
     }
 
 }

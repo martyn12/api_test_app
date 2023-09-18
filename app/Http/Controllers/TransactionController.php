@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Transaction\CreateTransactionRequest;
+use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +16,7 @@ class TransactionController extends Controller
         $data['payment'] = $data['hours'] * Transaction::HOURLY_PAYMENT;
         $transaction = Transaction::create($data);
 
-        return response()->json($transaction, 201);
+        return response(new TransactionResource($transaction), 201);
     }
 
     public function getPaymentSum()

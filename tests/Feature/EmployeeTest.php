@@ -23,7 +23,7 @@ class EmployeeTest extends TestCase
         $res = $this->post('/api/employee/create', $data);
         $res->assertStatus(201);
 
-        $this->assertTrue(Employee::count() > 0);
+        $this->assertTrue(Employee::count() == 1);
     }
 
     /** @test */
